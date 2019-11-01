@@ -9,8 +9,29 @@ const { SubMenu } = Menu;
 class NavLeft extends Component {
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = { }
   }
+
+  componentWillMount() {
+    const menuTreeNode = this.renderMenu(MenuConfig);
+    this.setState({menuTreeNode});
+  }
+
+  renderMenu = (data) => {
+    return data.map(
+      (item) => {
+        if (item.children) {
+          return (
+            <SubMenu key={item.key} title={item.title}>
+              {this.renderMenu(item.children)}
+            </SubMenu>
+          );
+        }
+        return <Menu.Item key={item.key}>{item.title}</Menu.Item>
+      }
+    );
+  }
+
   render() { 
     return ( 
       <div>
@@ -21,12 +42,7 @@ class NavLeft extends Component {
         </div>
 
         <Menu theme="dark">
-        <SubMenu key="sub1" title={<span><Icon type="mail" /><span>Navigation One</span></span>}>
-          <Menu.Item key="1">Option 1</Menu.Item>
-          <Menu.Item key="2">Option 2</Menu.Item>
-          <Menu.Item key="3">Option 3</Menu.Item>
-          <Menu.Item key="4">Option 4</Menu.Item>
-        </SubMenu>
+          { this.state.menuTreeNode }
         </Menu>
       </div>
     );
