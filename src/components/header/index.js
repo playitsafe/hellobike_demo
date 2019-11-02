@@ -11,7 +11,7 @@ class Header extends Component {
     this.state = {  }
   }
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.setState({
       userName: 'Aaaron'
     });
@@ -25,9 +25,9 @@ class Header extends Component {
   }
 
   getWeatherApiData = () => {
-    axios.jsonp({
-      url: 'http://api.jirengu.com/getWeather.php?city=shanghai'
-    }).then((res) => {
+    let weatherAPI = 'http://api.jirengu.com/getWeather.php?city=shanghai';
+    
+    axios.jsonp(weatherAPI).then((res) => {
       if (res.status === 'success') {
         let data = res.results[0].weather_data[0];
         this.setState({
@@ -51,7 +51,7 @@ class Header extends Component {
 
         <Row className="breadCrumb">
           <Col span={4} className="breadCrumb-title">
-            HomePage
+            Home
           </Col>
           <Col span={20} className="weather">
             <span className="date">{this.state.sysTime}, </span>

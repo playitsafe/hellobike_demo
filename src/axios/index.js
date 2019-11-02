@@ -1,9 +1,9 @@
 import JsonP from 'jsonp';
 
 export default class Axios {
-  static jsonp(options) {
+  static jsonp(url) {
     return new Promise((resolve, reject) => {
-      JsonP(options.url,
+      JsonP(url,
             { param: 'callback' },
             (err, response) => {
               if (response.status === 'success') {

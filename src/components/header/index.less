@@ -21,6 +21,18 @@
 
     .breadCrumb-title {
       text-align: center;
+      font-size: @fontC;
+      &:after {
+        position: absolute;
+        content: '';
+        left: 77px;
+        top: 39px;
+        border-top: 9px solid @colorM;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        //background-color: red;
+        z-index: 1;
+      }
     }
 
     .weather {
