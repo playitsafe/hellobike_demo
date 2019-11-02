@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import Util from 'utils/utils';
+import axios from 'axios/index.js';
 
 import './index.less';
 
@@ -10,7 +11,7 @@ class Header extends Component {
     this.state = {  }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({
       userName: 'Aaaron'
     });
@@ -20,10 +21,23 @@ class Header extends Component {
       this.setState({sysTime});
     }, 1000);
 
-    //this.getWeatherApiData();
+    this.getWeatherApiData();
   }
 
-  //getWeatherApiData = () => {}
+  getWeatherApiData = () => {
+    axios.jsonp({
+      url: 'http://api.jirengu.com/getWeather.php?city=shanghai'
+    }).then((res) => {
+      if (res.status === 'success') {
+        let data = res.results[0].weather_data[0];
+        this.setState({
+          dayPictureUrl: data.dayPictureUrl,
+          temperature: data.temperature
+        });
+        
+      }
+    });
+  }
 
   render() { 
     return ( 
@@ -41,7 +55,10 @@ class Header extends Component {
           </Col>
           <Col span={20} className="weather">
             <span className="date">{this.state.sysTime}, </span>
-            <span className="weather-detail">Cloudy</span>
+            <span className="weather-img">
+              <img src={this.state.dayPictureUrl} alt="weather-icon" />
+            </span>
+            <span className="weather-detail">{this.state.temperature}</span>
           </Col>
         </Row>
       </div>

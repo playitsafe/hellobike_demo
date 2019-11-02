@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-
 import './index.less';
 
-class Footer extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {  }
   }
   render() { 
     return ( 
-      <div className="footer">
-        Copyright@Aaron - Designed for ReactJS Practice with AntDesign Framework
+      <div className="home-wrap">
+        Welcome to HelloBike MS!
       </div>
+
     );
   }
 }
  
-export default Footer;
+export default Home;
