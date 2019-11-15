@@ -27,7 +27,7 @@ class Buttons extends Component {
   render() { 
     return (
       <div>
-        <Card title="Basic Buttons" className="card-warp">
+        <Card title="Basic Buttons" className="card-wrap">
           <Button type="primary">Primary</Button>
           <Button>Ordinary</Button>
           <Button type="dashed">Dashed</Button>
@@ -35,7 +35,7 @@ class Buttons extends Component {
           <Button disabled>Disabled</Button>
         </Card>
 
-        <Card title="Buttons w/ Pics" className="card-warp">
+        <Card title="Buttons w/ Pics" className="card-wrap">
           <Button icon="plus">Plus</Button>
           <Button icon="edit">Edit</Button>
           <Button icon="delete">Delete</Button>
@@ -44,7 +44,7 @@ class Buttons extends Component {
           <Button type="primary" icon="download">Download</Button>
         </Card>
 
-        <Card title="Loading Buttons" className="card-warp">
+        <Card title="Loading Buttons" className="card-wrap">
           <Button type="primary" loading={true}>Confirm</Button>
           <Button type="primary" shape="circle" loading={true}></Button>
           <Button loading={true}>Click To Load</Button>
@@ -59,7 +59,7 @@ class Buttons extends Component {
           </Button.Group>
         </Card>
 
-        <Card title="Buttons Sizes" className="card-warp">
+        <Card title="Buttons Sizes" className="card-wrap">
 
           <Radio.Group value={this.state.size} onChange={this.handleChange}>
             <Radio value="small">Small</Radio>
