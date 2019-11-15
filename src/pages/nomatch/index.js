@@ -9,6 +9,7 @@ class NoMatch extends Component {
     return ( 
       <div style={{textAlign: "center", fontSize: '24'}}>
         This is no match 404 no found
+        
       </div>
      );
   }

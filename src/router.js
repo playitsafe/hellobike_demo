@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import App from './App';
 import Admin from './admin';
 import Login from 'pages/login';
@@ -18,12 +18,13 @@ class IRouter extends Component {
           <Route path="/login" component={Login} />
           <Route path="/admin" render={ () => 
             <Admin>
-              <Route path="/admin/ui/buttons" component={Buttons} />
-              <Route component={NoMatch} />
+              <Switch>
+                <Route path="/admin/ui/buttons" component={Buttons} />
+                <Route component={NoMatch} />
+              </Switch>
             </Admin>
           } />
           <Route path="/order/detail" component={Admin} />
-        
         </App>
       </HashRouter>
      );
