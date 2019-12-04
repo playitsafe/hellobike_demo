@@ -48,11 +48,15 @@ class BasicTable extends Component {
       }
     ]
     this.setState({ dataSource });
+    this.request();
   }
 
   //get mock data
   request = () => {
-    
+    let baseUrl = 'https://www.fastmock.site/mock/699b6d4d132ed44d8fbac1d675104739/mockapi';
+    axios.get(baseUrl + '/table/list').then((res) => {
+      console.log(JSON.stringify(res)).catch((res)=>{});
+    });
   }
 
   render() {
