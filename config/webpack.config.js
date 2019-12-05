@@ -316,7 +316,7 @@ module.exports = function(webpackEnv) {
         pages: path.resolve(__dirname, '../src/pages'),
         styles: path.resolve(__dirname, '../src/styles'),
         utils: path.resolve(__dirname, '../src/utils'),
-        axios: path.resolve(__dirname, '../src/axios')
+        axios_service: path.resolve(__dirname, '../src/axios')
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding

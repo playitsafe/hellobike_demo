@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Table } from 'antd';
-import axios from 'axios';
+import axios from 'axios_service/index.js';
 import '../ui/ui.less';
 
 class BasicTable extends Component {
@@ -52,10 +52,32 @@ class BasicTable extends Component {
   }
 
   //get mock data
+  /*
   request = () => {
     let baseUrl = 'https://www.fastmock.site/mock/699b6d4d132ed44d8fbac1d675104739/mockapi';
     axios.get(baseUrl + '/table/list').then((res) => {
-      console.log(JSON.stringify(res)).catch((res)=>{});
+      //console.log(JSON.stringify(res));
+      if (res.status == '200' && res.data.code == 0) {
+        this.setState({ dataSource2: res.data.result });
+      }
+    });
+  }
+  */
+
+  request = () => {
+    axios.ajax({
+      url: '/table/list',
+      data: {
+        params: {
+          page: 1
+        }
+      }
+    }).then((res) => {
+      if (res.code == 0) {
+        this.setState({ dataSource2: res.result });
+      } else {
+        
+      }
     });
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import Util from 'utils/utils';
-import axios from 'axios/index.js';
+import axios from 'axios_service/index.js';
 
 import './index.less';
 
