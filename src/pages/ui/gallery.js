@@ -26,7 +26,7 @@ class Gallery extends Component {
 
     const imgList = imgs.map((list) => list.map((item)=>
     //public fold is the root folder
-      <Card cover={<img src={'/gallery/'+item} />}
+      <Card cover={<img src={'/gallery/'+item} alt="" />}
             style={{marginBottom: 10}}
             onClick={()=>this.openGallery(item)}>
         <Card.Meta title="Hellobike MS" description="Welcome to HelloBike" />

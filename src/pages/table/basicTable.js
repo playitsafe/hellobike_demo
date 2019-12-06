@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table } from 'antd';
+import { Card, Table, Modal } from 'antd';
 import axios from 'axios_service/index.js';
 import '../ui/ui.less';
 
@@ -22,7 +22,6 @@ class BasicTable extends Component {
         birthday: '2007-01-01',
         address: '1 King st',
         brekkiTime: '08:15',
-        key: '0'
       },
       {
         id: '1',
@@ -33,7 +32,6 @@ class BasicTable extends Component {
         birthday: '2007-01-01',
         address: '1 King st',
         brekkiTime: '08:15',
-        key: '1'
       },
       {
         id: '2',
@@ -44,9 +42,9 @@ class BasicTable extends Component {
         birthday: '2007-01-01',
         address: '1 King st',
         brekkiTime: '08:15',
-        key: '2'
       }
-    ]
+    ];
+    dataSource.map((item, index)=>{ item.key = index });
     this.setState({ dataSource });
     this.request();
   }
@@ -68,16 +66,30 @@ class BasicTable extends Component {
     axios.ajax({
       url: '/table/list',
       data: {
-        params: {
-          page: 1
-        }
+        params: { page: 1 },
+        //showLoading: false
       }
     }).then((res) => {
       if (res.code == 0) {
+        res.result.map((item, index)=>{ item.key = index });
         this.setState({ dataSource2: res.result });
       } else {
         
       }
+    });
+  }
+
+  //record is the curreny row data
+  onRowClick = (record, index) => {
+    let selectedKey = [index];
+    
+    Modal.info({
+      title: 'Info',
+      content: `Username: ${record.userName}. Hobby is ${record.hobby}`
+    });
+    this.setState({
+      selectedRowKeys: selectedKey,
+      selectedItem: record
     });
   }
 
@@ -96,17 +108,43 @@ class BasicTable extends Component {
       {
         title: 'Gender',
         dataIndex: 'gender',
-        key: 'gender'
+        key: 'gender',
+        render(gender) {
+          return gender == 1 ? 'Male' : 'Female'
+        }
       },
       {
         title: 'Status',
         dataIndex: 'status',
-        key: 'status'
+        key: 'status',
+        render(status) {
+          let config = {
+            '1': 'Single',
+            '2': 'Engaged',
+            '3': 'Married',
+            '4': 'Seperated',
+            '5': 'Fall in Love'
+          }
+          return config[status];
+        }
       },
       {
         title: 'Hobby',
         dataIndex: 'hobby',
-        key: 'hobby'
+        key: 'hobby',
+        render(hobby) {
+          let config = {
+            '1': 'Reading',
+            '2': 'Writing',
+            '3': 'Listening',
+            '4': 'Movie',
+            '5': 'Music',
+            '6': 'Law',
+            '7': 'History',
+            '8': 'Walking',
+          }
+          return config[hobby];
+        }
       },
       {
         title: 'Birthday',
@@ -123,8 +161,13 @@ class BasicTable extends Component {
         dataIndex: 'brekkiTime',
         key: 'brekkiTime'
       }
-
     ];
+
+    const selectedRowKeys = this.state.selectedRowKeys
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys
+    }
     return (
       <div>
         <Card title="Basic Table" className="card-wrap">
@@ -133,8 +176,20 @@ class BasicTable extends Component {
                  pagination={false} />
         </Card>
 
-        <Card title="Show Table Programatically" className="card-wrap">
+        <Card title="Show Table Programatically - Mock" className="card-wrap">
           <Table columns={columns} bordered
+                 dataSource={this.state.dataSource2}
+                 pagination={false} />
+        </Card>
+
+        <Card title="Row Selection - Single - Mock" className="card-wrap">
+          <Table columns={columns} bordered
+                 rowSelection={rowSelection}
+                 onRow={(record, index) => {
+                   return {
+                     onClick: () => {this.onRowClick(record, index)}
+                   }
+                 }}
                  dataSource={this.state.dataSource2}
                  pagination={false} />
         </Card>

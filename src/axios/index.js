@@ -9,7 +9,6 @@ export default class Axios {
             { param: 'callback' },
             (err, response) => {
               if (response) {
-                
                 if (response.status === 'success') {
                   resolve(response);
                 } else {
@@ -21,6 +20,11 @@ export default class Axios {
   }
 
   static ajax(options) {
+    let loading;
+    if (options.data && options.data.showLoading !== false) {
+      loading = document.getElementById('ajaxLoading');
+      loading.style.display = 'block';
+    }
     let baseUrl = 'https://www.fastmock.site/mock/699b6d4d132ed44d8fbac1d675104739/mockapi';
     return new Promise((resolve, reject) => {
       axios({
@@ -31,6 +35,12 @@ export default class Axios {
         //params: options.data.params
         params: (options.data && options.data.params) || ''
       }).then((response) => {
+
+        if (options.data && options.data.showLoading !== false) {
+          loading = document.getElementById('ajaxLoading');
+          loading.style.display = 'none';
+        }
+
         if (response.status == '200') {
           let res = response.data;
           if (res.code == '0') {
