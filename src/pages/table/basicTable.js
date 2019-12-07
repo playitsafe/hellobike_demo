@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Table, Modal } from 'antd';
+import { Card, Table, Modal, Button, message } from 'antd';
 import axios from 'axios_service/index.js';
 import '../ui/ui.less';
 
@@ -72,7 +72,12 @@ class BasicTable extends Component {
     }).then((res) => {
       if (res.code == 0) {
         res.result.map((item, index)=>{ item.key = index });
-        this.setState({ dataSource2: res.result });
+        this.setState({
+          dataSource2: res.result,
+          //clear selected items after delete
+          selectedRowKeys: [],
+          selectedRows: null
+        });
       } else {
         
       }
@@ -90,6 +95,23 @@ class BasicTable extends Component {
     this.setState({
       selectedRowKeys: selectedKey,
       selectedItem: record
+    });
+  }
+
+  //delete selected multiple choice
+  handleDelete = () => {
+    let rows = this.state.selectedRows;
+    let ids = [];
+    rows.map((item)=>{
+      ids.push(item.id)
+    });
+    Modal.confirm({
+      title: 'Delete Confirm',
+      content: `Are you sure to delete the selected item(s)? ${ids.join(',')}`,
+      onOk: () => {
+        message.success('Deleted successfully!');
+        this.request();
+      }
     });
   }
 
@@ -163,11 +185,30 @@ class BasicTable extends Component {
       }
     ];
 
+    //for single selection
     const selectedRowKeys = this.state.selectedRowKeys
     const rowSelection = {
       type: 'radio',
       selectedRowKeys
     }
+
+    //for multi selection
+    const rowCheckSelection = {
+      type: 'checkbox',
+      selectedRowKeys,
+      onChange: (selectedRowKeys, selectedRows) => {
+        // let ids = [];
+        // selectedRows.map((item) => {
+        //   ids.push(item.id);
+        // });
+
+        this.setState({
+          selectedRowKeys,
+          selectedRows
+        });
+      }
+    }
+
     return (
       <div>
         <Card title="Basic Table" className="card-wrap">
@@ -183,13 +224,24 @@ class BasicTable extends Component {
         </Card>
 
         <Card title="Row Selection - Single - Mock" className="card-wrap">
+        <Table columns={columns} bordered
+        rowSelection={rowSelection}
+        onRow={(record, index) => {
+          return {
+            onClick: () => {this.onRowClick(record, index)}
+          }
+        }}
+        dataSource={this.state.dataSource2}
+        pagination={false} />
+        </Card>
+        
+        <Card title="Row Selection - Multiple - Mock" className="card-wrap">
+          <div style={{margin: '10px 0'}}>
+            <Button onClick={this.handleDelete}>Delete</Button>
+          </div>
           <Table columns={columns} bordered
-                 rowSelection={rowSelection}
-                 onRow={(record, index) => {
-                   return {
-                     onClick: () => {this.onRowClick(record, index)}
-                   }
-                 }}
+                 rowSelection={rowCheckSelection}
+                 
                  dataSource={this.state.dataSource2}
                  pagination={false} />
         </Card>
