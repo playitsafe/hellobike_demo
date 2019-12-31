@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Table, Modal, Button, message } from 'antd';
 import axios from 'axios_service/index.js';
 import '../ui/ui.less';
+import utils from 'utils/utils';
 
 class BasicTable extends Component {
   constructor(props) {
@@ -71,12 +72,15 @@ class BasicTable extends Component {
       }
     }).then((res) => {
       if (res.code == 0) {
-        res.result.map((item, index)=>{ item.key = index });
+        res.result.list.map((item, index)=>{ item.key = index });
         this.setState({
-          dataSource2: res.result,
+          dataSource2: res.result.list,
           //clear selected items after delete
           selectedRowKeys: [],
-          selectedRows: null
+          selectedRows: null,
+          pagination: utils.pagination(res, (current) => {
+            //to do
+          })
         });
       } else {
         
@@ -241,9 +245,18 @@ class BasicTable extends Component {
           </div>
           <Table columns={columns} bordered
                  rowSelection={rowCheckSelection}
-                 
                  dataSource={this.state.dataSource2}
                  pagination={false} />
+        </Card>
+
+        <Card title="Pagination - Mock" className="card-wrap">
+          <div style={{margin: '10px 0'}}>
+            <Button onClick={this.handleDelete}>Delete</Button>
+          </div>
+          <Table columns={columns} bordered
+                 
+                 dataSource={this.state.dataSource2}
+                 pagination={this.state.pagination} />
         </Card>
       </div>
     );
