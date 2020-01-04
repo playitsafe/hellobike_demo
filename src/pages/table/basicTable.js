@@ -10,6 +10,10 @@ class BasicTable extends Component {
     this.state = {
       dataSource2: []
     }
+
+    this.params = {
+      page: 1
+    }
   }
 
   componentDidMount() {
@@ -64,10 +68,11 @@ class BasicTable extends Component {
   */
 
   request = () => {
+    let _this = this;
     axios.ajax({
       url: '/table/list',
       data: {
-        params: { page: 1 },
+        params: { page: this.params.page },
         //showLoading: false
       }
     }).then((res) => {
@@ -80,6 +85,8 @@ class BasicTable extends Component {
           selectedRows: null,
           pagination: utils.pagination(res, (current) => {
             //to do
+            _this.params.page = current;
+            this.request();
           })
         });
       } else {
